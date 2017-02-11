@@ -4,7 +4,7 @@ CREATE TABLE `Player` (
 	`Health` INT(16) NOT NULL,
 	`Strenght` INT(16) NOT NULL,
 	`CurrentScore` INT(32) NOT NULL,
-	`Level` INT(8) NOT NULL,
+	`LevelsID` INT(8) NOT NULL,
 	`EnergyLevel` INT(16) NOT NULL,
 	PRIMARY KEY (`PlayerID`)
 );
@@ -55,7 +55,7 @@ CREATE TABLE `Levels_Enemy` (
 	PRIMARY KEY (`LevelEnemyID`)
 );
 
-ALTER TABLE `Player` ADD CONSTRAINT `Player_fk0` FOREIGN KEY (`Level`) REFERENCES `Levels`(`LevelsID`);
+ALTER TABLE `Player` ADD CONSTRAINT `Player_fk0` FOREIGN KEY (`LevelsID`) REFERENCES `Levels`(`LevelsID`);
 
 ALTER TABLE `High_Score` ADD CONSTRAINT `High_Score_fk0` FOREIGN KEY (`PlayerID`) REFERENCES `Player`(`PlayerID`);
 
