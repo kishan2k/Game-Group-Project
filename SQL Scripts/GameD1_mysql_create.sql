@@ -2,7 +2,7 @@ CREATE TABLE `Player` (
 	`PlayerID` INT(32) NOT NULL,
 	`Name` TEXT(10) NOT NULL,
 	`Health` INT(16) NOT NULL,
-	`Strenght` INT(16) NOT NULL,
+	`Strength` INT(16) NOT NULL,
 	`CurrentScore` INT(32) NOT NULL,
 	`Level` INT(8) NOT NULL,
 	`EnergyLevel` INT(16) NOT NULL,
@@ -29,6 +29,9 @@ CREATE TABLE `Loot` (
 	`LootID` INT(8) NOT NULL,
 	`TypeOfItem` varchar(32) NOT NULL,
 	`Item` varchar(32) NOT NULL,
+	`Effect` varchar(32) NOT NULL,
+	`Duration` INT(8) NOT NULL,
+	`Amount` INT(16) NOT NULL,
 	PRIMARY KEY (`LootID`)
 );
 
