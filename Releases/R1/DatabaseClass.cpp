@@ -70,11 +70,12 @@ string DatabaseClass::getLevelMap(int MapRequired)
             //Give a message to the user stating that the conncetion couldn't be created
             cerr << "Connection Failed. Program will now close" << endl;
             cout << conn.error() << endl;
+            return "Connection Failed. Program will now close";
         }
     }
     //catch an error if the procedure fails.
-    catch (exception &err){
+    catch (Exception err){
         cerr << err.what() << endl;
-        
+        return "Unexected Error whilst communicating with the database"; 
     }
 }

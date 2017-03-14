@@ -13,6 +13,7 @@ to be kept in memory whilst the program is running but also will be needed for f
 that move the player, check to see if there is a wall in the direction the 
 player needs to move in, etc.
 */
+
 const int MapRowSize = 32;
 const int MapColumnSize = 24;
 char arrCurrentMap[MapRowSize][MapColumnSize];
@@ -28,7 +29,7 @@ int GenerateLoadingMap(int MapToGenerate)
     */
     
     //Call the GetLevelMap funciton to retrieve the map as a string.
-    string Map = db.getLevelMap(1);
+    string Map = db.getLevelMap(MapToGenerate);
     
     //Load the map into an array to be used for other uses (e.g. pathfinding, etc)
     LoadMapIntoArray(Map, PlayerInstance);
@@ -106,6 +107,5 @@ void PopulateEnemiesVector()
                 Enemies.push_back(NewEnemy);
             }
         }
-        cout << endl;
     }
 }
