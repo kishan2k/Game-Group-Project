@@ -1,7 +1,7 @@
 #include "DatabaseClass.hpp"
 #include <iostream>
 #include <string>
-//Use the mysql and mySQL++ files to be able to connect to the GameD1 database. see README.md for link to mysql++ website.
+//Use the mysql and mySQL++ files to be able to connect to the GameD1 database. The mysql++ is a third party module and can be found at this website: https://tangentsoft.net/mysql++/ 
 #include <mysql/mysql.h>
 #include <mysql++.h>
 

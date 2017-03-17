@@ -43,9 +43,11 @@ int GenerateLoadingMap(int MapToGenerate)
     return 0;
 }
 
-int LoadMapIntoArray(string InsertMapIntoArray, Player& UserPlayer)
+void LoadMapIntoArray(string InsertMapIntoArray, Player& UserPlayer)
 {
-    /* A function that takes the map as a string input and places the appropriate characters inth the global map array */
+    /*
+    A function that takes the map as a string input and places the appropriate characters inth the global map array
+    */
     int CharNum = 0;
     
     for (int column=0; column<MapColumnSize; column++)
@@ -63,12 +65,10 @@ int LoadMapIntoArray(string InsertMapIntoArray, Player& UserPlayer)
             //move to next character ins string
             CharNum += 1;
         }
-        
     }
-    return 0;
 }
 
-int PrintMap()
+void PrintMap()
 {
     /*
     A function that prints the given map as a string to the screen
@@ -85,13 +85,15 @@ int PrintMap()
             cout << arrCurrentMap[row][col];
         }
         cout << endl;
-    }
-    return 0;
-    
+    }    
 }
 
 void PopulateEnemiesVector()
 {
+    /*
+    A function  that finds enemies in the map array and creates
+    new instances of the enemy to place in the enemies vector.
+    */
     Enemies.clear();
     
     //iterate through each letter in the map array

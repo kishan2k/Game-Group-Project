@@ -12,7 +12,7 @@ bool CanPlayerMove(string, Player&);
 int getPlayerXPos();
 int getPlayerYPos();
 void MovePlayer(string, Player&);
-void AttackEnemy(string);
+void AttackCorrectEnemy(string);
 void PlayerAttackEnemy(Player&, Enemy&, int);
 
 #endif

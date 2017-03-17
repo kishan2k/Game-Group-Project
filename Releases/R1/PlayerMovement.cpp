@@ -1,6 +1,8 @@
 #include "PlayerMovement.hpp"
 #include <iostream>
 #include <string>
+#include <iostream>
+#include <string.h>
 
 using namespace mysqlpp;
 using namespace std;
@@ -8,8 +10,10 @@ using namespace std;
 void PrintInstrucitons(Player& UserPlayer)
 {
     /*
-    A funciton that gives the user instrucitons about what the user can do.
+    A function that gives the user instructions about what the user can do as well as stats about the players health and calls a function which prints out the health for each remaining enemy.
     */
+
+
     
     cout << "Your health is " << UserPlayer.getHealth() << endl;
     cout << "Number of enemies remaining: " << Enemies.size() << endl;
@@ -43,7 +47,11 @@ string WhereToMove()
     
     string EnteredCommand;
     while (CommandAccepted == false)
-    {
+    {   
+        //EnteredCommand = UserInput();
+        //cout << EnteredCommand << endl;
+        //string temp;
+        //cin >> temp;
         cout << "Please enter a command from the list above:";
         cin >> EnteredCommand;
 
@@ -64,7 +72,7 @@ bool CanPlayerMove(string AcceptedCommand, Player& UserPlayer)
 {
     /*
     A function that checks that the array value for the direction that the user
-    has entered is empty and returns true if the user can move in that direction.
+    has entered (passed as a parameter) is empty and returns true if the user can move in that direction.
     If not it returns false.
     */
     if (AcceptedCommand == "w")
@@ -154,7 +162,8 @@ int PlayerProcedures()
 {
     /*
     A funtions that prints the instructions to the screen and processes the 
-    given commnads by calling different procedures/funcitons.
+    given commnads by calling different procedures/funcitons. This procedure ties all 
+    of the other procedures from the PLayerMovement module together.
     */
     
     //Call PrintInstrucitons
@@ -177,8 +186,13 @@ int PlayerProcedures()
              
              if (PlayerAttack == true)
              {
-                 AttackEnemy(EnteredDirection);
-                 PlayerCanMove = true;
+                 AttackCorrectEnemy(EnteredDirection);
+                 
+                 //call PrintMap
+                 PrintMap();
+                 
+                 //Call PrintInstrucitons
+                 PrintInstrucitons(PlayerInstance);
              }
              else
              {                 
@@ -204,7 +218,7 @@ int PlayerProcedures()
 void MovePlayer(string Direction, Player& UserPlayer)
 {
     /*
-    A funciton that updates the array to move the player by the direciton that was given in the funtion call.
+    A function that updates the array to move the player by the direction that was given in the function call.
     */
     
     arrCurrentMap[UserPlayer.getXPos()][UserPlayer.getYPos()] = ' ';
@@ -212,22 +226,23 @@ void MovePlayer(string Direction, Player& UserPlayer)
     arrCurrentMap[UserPlayer.getXPos()][UserPlayer.getYPos()] = 'p';
 }
 
-void PlayerAttackEnemy(Player& UserPlayer, Enemy& EnemyToAttack, int offset)
+
+void PlayerAttackEnemy(Player& UserPlayer, Enemy& EnemyToAttack, int PositionInVector)
 {
     /*
     A function which attack the enemy given and removes the enemy from the enemies vector
     */
     
     UserPlayer.attack(EnemyToAttack);
-    Enemies[offset].setHealth(EnemyToAttack.getHealth());
+    Enemies[PositionInVector].setHealth(EnemyToAttack.getHealth());
     if (EnemyToAttack.getHealth() <= 0)
     {
         arrCurrentMap[EnemyToAttack.getXPos()][EnemyToAttack.getYPos()] = ' ';
-        Enemies.erase(Enemies.begin()+offset);
+        Enemies.erase(Enemies.begin()+PositionInVector);
     }
 }
 
-void AttackEnemy(string Direction)
+void AttackCorrectEnemy(string Direction)
 {
     /*
     A function that takes the direction as input and attacks the enemy in the appropriate direction.
@@ -239,6 +254,7 @@ void AttackEnemy(string Direction)
     {
         if (Direction == "w")
         {
+            //Check that this enemy is the enemy above the user. If so make the player attack this enemy once.
             if (EachEnemy.getYPos() == PlayerInstance.getYPos()-1 && EachEnemy.getXPos() == PlayerInstance.getXPos())
             {
                 PlayerAttackEnemy(PlayerInstance, EachEnemy, PositionInEnemiesVec);
@@ -248,6 +264,7 @@ void AttackEnemy(string Direction)
         
         else if (Direction == "s")
         {
+            //Check that this enemy is the enemy below the user. If so make the player attack this enemy once.
             if (EachEnemy.getYPos() == PlayerInstance.getYPos()+1 || EachEnemy.getXPos() == PlayerInstance.getXPos())
             {
                 PlayerAttackEnemy(PlayerInstance, EachEnemy, PositionInEnemiesVec);
@@ -257,22 +274,24 @@ void AttackEnemy(string Direction)
         
         else if (Direction == "a")
         {
+            //Check that this enemy is the enemy to the left of the user. If so make the player attack this enemy once.
             if (EachEnemy.getXPos() == PlayerInstance.getXPos()-1 && EachEnemy.getYPos() == PlayerInstance.getYPos())
             {
                 PlayerAttackEnemy(PlayerInstance, EachEnemy, PositionInEnemiesVec);
                 break;
             }
-            break;
         }
         
         else if (Direction == "d")
         {
+            //Check that this enemy is the enemy to the right of the user. If so make the player attack this enemy once.
             if (EachEnemy.getXPos() == PlayerInstance.getXPos()+1 && EachEnemy.getYPos() == PlayerInstance.getYPos())
             {
                 PlayerAttackEnemy(PlayerInstance, EachEnemy, PositionInEnemiesVec);  
                 break;
             }
         }
+        //If the current enemy is not the correct enemy to attack, check the next enemy in the enemies vector.
         PositionInEnemiesVec += 1;
     }
 }

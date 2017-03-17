@@ -7,8 +7,8 @@
 
 using namespace std;
 
-int LoadMapIntoArray(string, Player&);
-int PrintMap();
+void LoadMapIntoArray(string, Player&);
+void PrintMap();
 int GenerateLoadingMap(int);
 void PopulateEnemiesVector();
 
