@@ -1,0 +1,92 @@
+//Use the mySQL++ files to be able to connect to the GameD1 database
+#include <mysql/mysql.h>
+#include <mysql++.h>
+
+using namespace std;
+using namespace mysqlpp;
+
+int main()
+{
+    //Create an empty connection
+    Connection conn(false);
+    
+    //details of database
+    conn.connect("GameD1", "localhost", "root", "codio");
+    
+    //Create a memory location
+    Query query = conn.query();
+
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (1,'Potion','HP Potion','Health',0,20);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (2,'Potion','HP+ Potion','Health',0,45);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (3,'Potion','Strength Potion','Strength',3,20);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (4,'Potion','Strength+Potion','Strength',5,30);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (5,'Potion','Speed Potion', 'Speed',1,2);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (6,'Potion','Speed+ Potion','Speed',2,2);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (7,'Armour','Shield','Reduction',3,20);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (8,'Weapon','Knife','Strength',8,10);";
+    
+    //Execute the query
+    query.execute();
+    
+    //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (9,'Drug','Steroids','Strength',0,5);";
+    
+    //Execute the query
+    query.execute();
+    
+        //Write the required query and place the query into.
+    query << "INSERT INTO Loot VALUES (10,'Drug','Redbull','EnergyLevel',3,2);";
+    
+    //Execute the query
+    query.execute();
+    
+    
+    
+    
+    return 0;
+}
+
+    //CREATE TABLE `Loot` (
+	//`LootID` INT(8) NOT NULL,
+	//`TypeOfItem` varchar(32) NOT NULL,
+	//`Item` varchar(32) NOT NULL,
+	//`Effect` INT(32) NOT NULL,
+	//`Duration` INT(8) NOT NULL,
+	//`Amount` INT(16) NOT NULL,
+	//PRIMARY KEY (`LootID`)
