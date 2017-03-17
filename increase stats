@@ -1,0 +1,127 @@
+#include <iostream>
+#include <string>
+
+//Use the mysql and mySQL++ files to be able to connect to the GameD1 database
+#include <mysql/mysql.h>
+#include <mysql++.h>
+
+using namespace std;
+using namespace mysqlpp;
+
+int playerstats(string Effect)
+{
+    int playerHealth = 100;
+    int playerStrength = 20;
+    int playerEnergyLevel = 5;
+    int playerReduction = 0; 
+    int playerSpeed = 1;
+    
+    if (Effect == "Health"){
+        return playerHealth;
+    }
+    else if (Effect == "Strength"){
+        return playerStrength;
+    }
+    else if (Effect == "EnergyLevel"){
+        return playerEnergyLevel;
+    }
+    else if (Effect == "Reduction"){
+        return playerReduction;
+    }
+    else if (Effect == "Speed")
+        return playerSpeed;
+}
+
+string RetrieveLootString(string lootpicked, string column)
+{
+
+    //Create an empty connection to use later on.
+    Connection conn(false);
+
+    //details of database
+    conn.connect("GameD1", "localhost", "root", "codio");
+
+
+    ostringstream QueryString;
+    QueryString << "SELECT " << column << " FROM Loot WHERE Item = " << quote_only << lootpicked << ";" ;
+    Query query = conn.query(QueryString.str());
+
+    //Execute the query and store results
+    StoreQueryResult Reults = query.store();
+
+    //Disconnect from the database 
+    conn.disconnect();
+
+    ostringstream outstream;
+    outstream << Reults[1][0];
+    return outstream.str();
+}
+
+
+string RetrieveLoot(string lootpicked, string column)
+{
+    //Create an empty connection to use later on.
+    Connection conn(false);
+    
+    //details of database
+    conn.connect("GameD1", "localhost", "root", "codio");
+    
+    //Create a memory location of the query to be entered into.
+    Query query = conn.query();
+    
+    //Write the required query and place the query into.
+    query << "SELECT " << column << " FROM Loot WHERE Item = " << lootpicked << ";";
+        
+    //Execute the query
+    StoreQueryResult EDA = query.store(); //Effect/Duration/Amount
+    
+    conn.disconnect(); 
+    
+    ostringstream outstream;
+    outstream << EDA[0][0]; 
+    
+   
+    return outstream.str(); //Returns either Effect/Duration/Amount
+    
+}
+
+
+int StatCalculations(string Effect, int ReleventStat, int Amount)
+{
+    if ((Effect == "Strength") || ( Effect == "Health") || (Effect == "EnergyLevel") || (Effect == "Reduction")){
+        return (ReleventStat + Amount);
+    } 
+    else if (Effect = "Speed"){
+        return (ReleventStat * Amount);
+    }  
+ 
+    return 0;
+}
+
+
+int main()
+{
+    ostringstream lootpicked;
+    lootpicked << "Strength+Potion";
+    
+    ostringstream Attribute;
+    Attribute << "Effect";
+    
+    string Effect = RetrieveLootString(lootpicked.str(), "Effect");
+    int Duration = RetrieveLoot(lootpicked, "Duration");
+    int Amount = RetrieveLoot(lootpicked, "Amount");
+    
+    cout << Effect << endl;
+    cout << Duration << endl;
+    cout << Amount <<endl;
+    
+    int ReleventStat = playerstats(Effect);
+    cout << Effect << ":" << ReleventStat;
+  
+    
+    int calc = StatCalculations(Effect, ReleventStat, Amount);
+    cout << calc << endl;
+    
+    cout << Effect << endl;
+    return 0;
+}
